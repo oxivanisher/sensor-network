@@ -234,7 +234,8 @@ void loop(void) {
             // #endif
           }
         }
-        DEBUG_PRINTLN(" done");
+        DEBUG_PRINTLN(" done. Disconnecting from MQTT Server.");
+        mqttClient.disconnect();
       }
 
       // Put the Wifi to sleep again
