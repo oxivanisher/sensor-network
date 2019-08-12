@@ -8,3 +8,5 @@ src/config.h
 sensor_names.json
 .idea
 package-lock.json
+.pio
+.vscode
