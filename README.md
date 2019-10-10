@@ -7,8 +7,10 @@ Please see the [Wiki](https://github.com/fujexo/sensor-network/wiki) for more in
 
 # Hardware setup
 ## Wire the DHT22
-10kOhm Resistor from VCC to DATA
-DATA Pin to Pin D4 on a NodeMCU board
+* 10kOhm Resistor between DHT 22 VCC and DHT 22 DATA
+* DHT 22 DATA pin to D4 on a NodeMCU or D1 mini board
+* DHT 22 VCC pin to 3.3V pin
+* DHT 22 GND to some ground pin
 
 ```
    _ _ __ _ _
@@ -16,7 +18,7 @@ DATA Pin to Pin D4 on a NodeMCU board
   |  DHT 22  |
   |          |
   ||--|--|--||
-
+   |  |  |  |
 VCC DATA NC GND
 ```
 
