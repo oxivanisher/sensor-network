@@ -103,24 +103,37 @@ bool mqttReconnect() {
 }
 
 bool wifiConnect() {
-  int retryCounter = CONNECT_TIMEOUT * 10;
-  WiFi.forceSleepWake();
-  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-  WiFi.mode(WIFI_STA); //  Force the ESP into client-only mode
-  delay(100);
-  DEBUG_PRINT("Reconnecting to Wifi ");
-  while (WiFi.status() != WL_CONNECTED) {
-    retryCounter--;
-    if (retryCounter <= 0) {
-      DEBUG_PRINTLN(" timeout reached!");
-      return false;
-    }
+  // int wifi_retry = 0;
+  // while(WiFi.status() != WL_CONNECTED && wifi_retry < 5 ) {
+  //     wifi_retry++;
+
+    int retryCounter = CONNECT_TIMEOUT * 10;
+    // WiFi.forceSleepWake();
+    // delay(100);
+    // WiFi.disconnect();
+    // WiFi.mode(WIFI_OFF);
+    WiFi.mode(WIFI_STA); //  Force the ESP into client-only mode
+    WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
     delay(100);
-    DEBUG_PRINT(".");
+    DEBUG_PRINT("Reconnecting to Wifi ");
+    while (WiFi.status() != WL_CONNECTED) {
+      retryCounter--;
+      if (retryCounter <= 0) {
+        DEBUG_PRINTLN(" timeout reached!");
+        return false;
+      }
+      delay(100);
+      DEBUG_PRINT(".");
+    }
+    DEBUG_PRINTLN(" done");
+    return true;
   }
-  DEBUG_PRINTLN(" done");
-  return true;
-}
+
+//   if(wifi_retry >= 5) {
+//       DEBUG_PRINTLN("\nForcing system reboot");
+//       ESP.restart();
+//   }
+// }
 
 void setup(void) {
   #ifdef DEBUG
@@ -151,9 +164,10 @@ void setup(void) {
     millisValues[i] = 0;
   }
 
+  wifiConnect();
   // Put the Wifi to sleep again
   // WiFi.forceSleepBegin();
-  delay(1);
+  // delay(100);
 }
 
 void loop(void) {
@@ -243,7 +257,7 @@ void loop(void) {
       // delay(100);
       // WiFi.mode(WIFI_OFF);
       // WiFi.forceSleepBegin();
-      delay(100);
+      // delay(100);
     }
 
     // calculate how long our current loop took, and fix the delay, so that the
